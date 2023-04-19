@@ -1,0 +1,16 @@
+{% extends 'ads/base.html' %}
+
+{% block title %} {{ title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<ul class="mainlist">
+{% for item in ads %}
+    <li>
+        <h2><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h2>
+        <p>{{ item.content }}</p>
+        <hr>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}

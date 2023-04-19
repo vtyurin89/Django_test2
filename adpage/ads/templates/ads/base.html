@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock title %}</title>
+        <meta charset="UTF-8" http-equiv="Content-Type" content="text/html">
+        <link type="text/css" rel="stylesheet" href="{% static 'ads/css/styles.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="mainthing">
+        <header>
+                <h2 class="logo" ><a href="{% url 'index' %}">LOGO</a></h2>
+            <nav class="menu">
+                {% for item in menu %}
+                    <a href="{% url item.url_name %}">{{ item.title }}</a>
+                {% endfor %}
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}">{{ user.username }} | Выйти</a>
+                {% else %}
+                <button class="btn-login" onclick="location.href='{% url 'login' %}'" type="button">Войти</button>
+                {% endif %}
+            </nav>
+        </header>
+        {% block content %}
+        {% endblock content %}
+
+         <!-- Pagination in here!
+          Pagination variable in utils.py.
+          -->
+        {% if page_obj.has_other_pages %}
+        <nav class="paginator">
+        <ul>
+        {% if page_obj.has_previous %}
+        {% if page_obj.previous_page_number != 1 %}
+        <li>
+            <a href="?page=1">&lt&lt</a>
+        </li>
+        {% endif %}
+        <li>
+            <a href="?page={{ page_obj.previous_page_number }}">&lt</a>
+        </li>
+        {% endif %}
+
+        {% for page in paginator.page_range %}
+        {% if page_obj.number == page %}
+        <li>
+            {{ page }}
+        </li>
+        {% elif page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
+        <li class="page-num">
+            <a href="?page={{ page }}">{{ page }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li>
+            <a href="?page={{ page_obj.next_page_number }}">&gt</a>
+        </li>
+        {% if page_obj.next_page_number != paginator.num_pages %}
+        <li>
+        <a href="?page={{ paginator.num_pages }}">&gt&gt</a>
+        </li>
+        {% endif %}
+        {% endif %}
+        </ul>
+        </nav>
+        {% endif %}
+
+        </div>
+
+    <div class="container">
+  <footer>
+    <p ">2023 Company, Inc</p>
+    <p><a href="{% url 'contact' %}">Обратная связь</a></p>
+  </footer>
+</div>
+
+    </body>
+</html>

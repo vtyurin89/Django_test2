@@ -1,0 +1,16 @@
+{% extends 'ads/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h2 class="new-ad-p"> Разместить объявление: </h2>
+<form class="new-ad" action="{% url 'new' %}" method="post">
+    {% csrf_token %}
+    <div>{{ form.non_field_errors }}</div>
+    {% for part in form %}
+    <p><label for="{{ part.id_for_label }}"> {{ part.label }}: </label>{{ part }} </p>
+    <div>{{ part.errors }}</div>
+    {% endfor %}
+    <button type="submit">Добавить</button>
+</form>
+{% endblock %}

@@ -1,0 +1,150 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Helvetica'
+}
+
+body{
+    max-width: 1200px;
+    margin: auto;
+}
+
+header {
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 20px 100px;
+    background-color: #232946;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-login {
+    width: 100px;
+    height: 40px;
+    border: 1px solid white;
+    border-radius: 6px;
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-left: 1em;
+}
+
+.btn-login:hover {
+    background-color: #eebbc3;
+    color: #232946;
+}
+
+.btn-login:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6), inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+.logo a {
+    color: white;
+    font-weight: 700;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
+header h2 {
+    margin: 0;
+}
+
+.menu a {
+    color: white;
+    margin-left: 1em;
+    font-size: 1.1em;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5em;
+}
+
+.menu a:hover{
+    background-color: #eebbc3;
+    border-radius: 6px;
+    color: #232946;
+}
+
+.menu a:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6), inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+.categories {
+    width: 100%;
+    padding: 5px 200px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
+}
+
+.categories a {
+    text-decoration: none;
+    text-align: center
+}
+
+.mainlist {
+    padding: 1em 1em;
+    list-style-type: none;
+}
+
+.mainlist li {
+    text-decoration: none;
+}
+
+.mainthing {
+    background-color: #b8c1ec;
+    min-height: 1000px;
+    padding-bottom: 1em;
+}
+
+.title{
+    margin-left: 1em;
+}
+
+.new-ad {
+    display:table;
+    margin:auto;
+}
+
+.new-ad-p {
+    text-align: center;
+}
+
+.about {
+    margin: 1em 1em;
+}
+
+.paginator ul li {
+    display: inline;
+}
+
+.paginator ul li{
+    font-size: 1.1em;
+    margin-right: 0.625%;
+}
+
+.register {
+    display:table;
+    margin:auto;
+}
+
+.register-h {
+ text-align: center;
+}
+
+.container {
+
+}
+
+footer {
+    background-color: #232946;
+    margin: 0px;
+    padding: 20px 100px;
+    min-height: 100px;
+    color: white;
+}
+
+footer a {
+    color: white;
+}

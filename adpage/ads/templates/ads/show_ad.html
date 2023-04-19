@@ -1,0 +1,10 @@
+{% extends 'ads/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h2>{{ ad.title }}</h2>
+<p>{{ ad.content|linebreaks }}</p>
+<p> Цена: {{ ad.price }} рублей</p>
+<p> Категория: <a href="{{ ad_cat.get_absolute_url }}">{{ad.cat}}</a></p>
+{% endblock %}

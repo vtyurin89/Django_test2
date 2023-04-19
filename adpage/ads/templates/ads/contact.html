@@ -1,0 +1,18 @@
+{% extends 'ads/base.html' %}
+
+{% block title %} {{ title }}{% endblock %}
+
+{% block content %}
+<h2 class="register-h">{{ title }}</h2>
+<form class="register" method="post">
+    {% csrf_token %}
+
+    <div>{{ form.non_field_errors }}</div>
+    {% for part in form %}
+    <p><label for="{{ part.id_for_label }}"> {{ part.label }}: </label>{{ part }} </p>
+    <div>{{ part.errors }}</div>
+    {% endfor %}
+    <button type="submit">Отправить</button>
+</form>
+
+{% endblock %}
