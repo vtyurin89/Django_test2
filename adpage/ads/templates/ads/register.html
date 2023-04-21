@@ -3,15 +3,30 @@
 {% block title %} {{ title }}{% endblock %}
 
 {% block content %}
-<h1 class="register-h">{{ title }}</h1>
-<form class="register" method="post">
+<div class="center-vertical">
+
+    <div class="container h-100">
+    <div class="row align-items-center h-75">
+        <div class="col-6 mx-auto">
+
+
+<div class="text-center">
+    <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1>
+<form class="form-signin" method="post">
     {% csrf_token %}
 
     <div>{{ form.non_field_errors }}</div>
     {% for part in form %}
-    <p><label for="{{ part.id_for_label }}"> {{ part.label }}: </label>{{ part }} </p>
+    <p>{{ part }} </p>
     <div>{{ part.errors }}</div>
     {% endfor %}
-    <button type="submit">Регистрация</button>
+
+    <button type="submit" class="btn btn-dark btn-primary btn-block">Регистрация</button>
 </form>
+    </div>
+
+    </div>
+</div>
+    </div>
+</div>
 {% endblock %}

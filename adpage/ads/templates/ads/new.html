@@ -3,14 +3,21 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<h2 class="new-ad-p"> Разместить объявление: </h2>
-<form class="new-ad" action="{% url 'new' %}" method="post">
+<div class="text-center">
+<h2 class="mt-4"> Разместить объявление: </h2>
+<form class="form-signin" action="{% url 'new' %}" method="post">
     {% csrf_token %}
     <div>{{ form.non_field_errors }}</div>
     {% for part in form %}
-    <p><label for="{{ part.id_for_label }}"> {{ part.label }}: </label>{{ part }} </p>
+    {% if part.label == 'Цена' %}
+    <p><label for="{{ part.id_for_label }}" class="form-label"> {{ part.label }}: </label> <div class="input-group"><div class="input-group-text">₽</div> {{ part }}</div></p>
     <div>{{ part.errors }}</div>
+    {% else %}
+    <p><label for="{{ part.id_for_label }}" class="form-label"> {{ part.label }}: </label>{{ part }} </p>
+    <div>{{ part.errors }}</div>
+    {% endif %}
     {% endfor %}
-    <button type="submit">Добавить</button>
+    <button type="submit" class="btn btn-dark btn-primary btn-block">Добавить</button>
 </form>
+</div>
 {% endblock %}

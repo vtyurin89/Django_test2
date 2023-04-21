@@ -5,7 +5,7 @@ from django.urls import reverse
 # Create your models here.
 class Ad(models.Model):
     title = models.CharField(max_length=255, verbose_name='Товар')
-    slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='URL')
+    slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='Slug-значение')
     content = models.TextField(blank=True, verbose_name='Описание')
     price = models.FloatField(blank=True, verbose_name='Цена')
     time_published = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')

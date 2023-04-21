@@ -22,7 +22,7 @@ class AdHomepage(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Главная страница')
+        c_def = self.get_user_context(title='Главная страница', in_menu=1)
         return context | c_def
 
     def get_queryset(self):
@@ -37,7 +37,7 @@ class AdNew(LoginRequiredMixin, DataMixin, CreateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Добавить объявление')
+        c_def = self.get_user_context(title='Добавить объявление', in_menu=2)
         return context | c_def
 
 def help(request):
@@ -46,7 +46,7 @@ def help(request):
 
 
 def about(request):
-    context = {'menu': menu}
+    context = {'menu': menu, 'title': 'О сайте', 'in_menu': 3}
     return render(request, 'ads/about.html', context)
 
 

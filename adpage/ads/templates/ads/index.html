@@ -1,25 +1,27 @@
 {% extends 'ads/base.html' %}
 {% load ads_tags %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="categories">
-    {% for cat in cats %}
-            {% if cat.ad__count > 0 %}
-        <a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
-            {% endif %}
-    {% endfor %}
-</div>
 
-<h1 class="title">Объявления:</h1>
-<ul class="mainlist">
+
+<h2 class="mt-3">Объявления:</h2>
+<div class="container">
+    <div class="row">
+
 {% for item in ads %}
-    <li>
-        <h2><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h2>
-        <p>{{ item.content|linebreaks }}</p>
-        <hr>
-    </li>
+    <div class="card col-sm-6 col-lg-4">
+        <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h4>
+            <a href="#"><i class="fa-regular fa-heart"></i></a>
+        </div>
+        <div class="card-text">{{ item.content|linebreaks }}</div>
+        </div>
+    </div>
 {% endfor %}
-</ul>
 
+    </div>
+</div>
 {% endblock %}
