@@ -6,22 +6,26 @@
 {% block content %}
 
 
-<h2 class="mt-3">Объявления:</h2>
+<h2 class="mt-3 mb-3">Объявления:</h2>
 <div class="container">
-    <div class="row">
-
+    <div class="row row-cols-1 row-cols-md-3 g-4">
 {% for item in ads %}
-    <div class="card col-sm-6 col-lg-4">
+<div class="col-lg-4 col-md-6">
+<div class="card">
         <div class="card-body">
+
         <div class="d-flex justify-content-between">
-            <h4 class="card-title"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h4>
+            <h5 class="card-title"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h5>
             <a href="#"><i class="fa-regular fa-heart"></i></a>
         </div>
         <div class="card-text">{{ item.content|linebreaks }}</div>
         </div>
+        <div class="card-footer bg-transparent">
+                <b>{{ item.price }} ₽</b>
+        </div>
+        </div>
     </div>
 {% endfor %}
-
-    </div>
+</div>
 </div>
 {% endblock %}

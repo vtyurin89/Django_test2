@@ -1,0 +1,42 @@
+body {
+    min-width: 320px;
+}
+
+main {
+    min-height: 100vh;
+}
+
+.center-vertical {
+    min-height: 100vh;
+    vertical-align: middle;
+}
+
+.mainthing {
+    margin: auto;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 350px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.card-title {
+    height: 30px;
+    overflow: hidden;
+}
+
+.card-title a {
+    text-decoration: none;
+}
+
+.card-text {
+    height: 110px;
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: 0 14px 30px -15px rgba(0, 0, 0, 0.75);
+    transition: all .3s;
+}

@@ -69,7 +69,7 @@
         <div class="d-flex flex-row justify-content-center flex-wrap">
         {% for cat in cats %}
         {% if cat.ad__count > 0 %}
-            <a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
+            <a class="m-2" href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
         {% endif %}
         {% endfor %}
         </div>
