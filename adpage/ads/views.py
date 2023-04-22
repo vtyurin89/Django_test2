@@ -40,9 +40,28 @@ class AdNew(LoginRequiredMixin, DataMixin, CreateView):
         c_def = self.get_user_context(title='Добавить объявление', in_menu=2)
         return context | c_def
 
+
 def help(request):
     context = {'menu': menu}
     return render(request, 'ads/help.html', context)
+
+
+def search(request):
+    if request.method == 'GET':
+        searched = request.GET['search-bar']
+        if searched:
+            ads = Ad.objects.filter(title__icontains=searched)
+            title = f'Результаты поиска: {str(searched)}'
+            context = {'menu': menu, 'title': title, 'ads': ads}
+            return render(request, 'ads/search.html', context)
+        else:
+            title = f'Результаты поиска: {str(searched)}'
+            zero_query = True
+            context = {'menu': menu, 'title': title, 'zero_query': zero_query}
+            return render(request, 'ads/search.html', context)
+    else:
+        context = {'menu': menu, 'title': 'Результаты поиска:'}
+        return render(request, 'ads/search.html', context)
 
 
 def about(request):

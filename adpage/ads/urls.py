@@ -13,4 +13,5 @@ urlpatterns = [
     path('show_ad/<slug:ad_slug>', AdShow.as_view(), name='show_ad'),
     path('category/<slug:cat_slug>', AdCategory.as_view(), name='category'),
     path('contact/', ContactFormView.as_view(), name='contact'),
+    path('search/', search, name='search'),
 ]

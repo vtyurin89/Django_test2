@@ -57,12 +57,13 @@
             <nav>
             <div class="mainthing">
             <div class="container mt-3">
-        <form class="d-flex justify-content-center" role="search">
-        <div class="w-50"><input class="form-control me-3" type="search" placeholder="Поиск по объявлениям" aria-label="Search"></div>
+        <form class="d-flex justify-content-center" role="search" method="get" action="{% url 'search' %}">
+            {% csrf_token %}
+        <div class="w-50"><input class="form-control me-3" type="search" placeholder="Поиск по объявлениям" aria-label="Search" name="search-bar"></div>
         <button class="btn btn-outline-primary ms-3" type="submit">Найти</button>
         </form>
         </div>
-        </nav>
+            </nav>
 
         <!-- Categories -->
         <div class="container mt-3">
