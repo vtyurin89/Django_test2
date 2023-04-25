@@ -8,7 +8,7 @@ class Ad(models.Model):
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='Slug-значение')
     content = models.TextField(blank=True, verbose_name='Описание')
     price = models.FloatField(blank=True, verbose_name='Цена')
-    time_published = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
+    time_published = models.DateTimeField(auto_now_add=True, verbose_name='Время публикации')
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория')
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
 
@@ -17,6 +17,9 @@ class Ad(models.Model):
 
     def get_absolute_url(self):
         return reverse('show_ad', kwargs={'ad_slug': self.slug})
+
+    def correct_price(self):
+        return "{:,.2f} ₽".format(self.price)
 
     class Meta:
         verbose_name_plural = 'Объявления'
