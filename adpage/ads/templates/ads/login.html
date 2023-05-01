@@ -15,6 +15,9 @@
 
 <div class="text-center">
     <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1>
+    {% if user.is_authenticated %}
+    <p>Вход на сайт уже выполнен!</p>
+    {% else %}
 <form class="form-signin" method="post">
     {% csrf_token %}
 
@@ -26,10 +29,12 @@
 
     <button type="submit" class="btn btn-dark btn-primary btn-block">Войти</button>
 </form>
-<p class="register-h">Нет аккаунта на сайте? Вы можете <a href="{% url 'register' %}">зарегистрироваться.</a></p>
+<p class="register-h">Забыли пароль? Запросите <a href="{% url 'password_reset' %}">смену пароля</a>.</p>
+<p class="register-h">Нет аккаунта на сайте? Вы можете <a href="{% url 'register' %}">зарегистрироваться</a>.</p>
     </div>
     </div>
 </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}

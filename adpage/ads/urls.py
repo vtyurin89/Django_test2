@@ -14,4 +14,8 @@ urlpatterns = [
     path('category/<slug:cat_slug>', AdCategory.as_view(), name='category'),
     path('contact/', ContactFormView.as_view(), name='contact'),
     path('search/', search, name='search'),
+    path('account/ask_password_reset/', AskPasswordReset.as_view(), name='password_reset'),
+    path('account/ask_password_reset_done/', AskPasswordResetDone.as_view(), name='password_reset_email_sent'),
+    path('account/password_reset/<uidb64>/<token>/', PasswordResetConfirm.as_view(), name='password_reset_confirm'),
+    path('account/password_reset/success/', PasswordResetComplete.as_view(), name='password_reset_complete'),
 ]

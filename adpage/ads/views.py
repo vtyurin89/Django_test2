@@ -1,6 +1,7 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, \
+    PasswordResetCompleteView
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -49,13 +50,12 @@ def help(request):
 def search(request):
     if request.method == 'GET':
         searched = request.GET['search-bar']
+        title = f'Результаты поиска: {str(searched)}'
         if searched:
             ads = Ad.objects.filter(title__icontains=searched)
-            title = f'Результаты поиска: {str(searched)}'
             context = {'menu': menu, 'title': title, 'ads': ads}
             return render(request, 'ads/search.html', context)
         else:
-            title = f'Результаты поиска: {str(searched)}'
             zero_query = True
             context = {'menu': menu, 'title': title, 'zero_query': zero_query}
             return render(request, 'ads/search.html', context)
@@ -131,6 +131,33 @@ def logout_user(request):
     return redirect('login')
 
 
+class AskPasswordReset(PasswordResetView):
+    form_class = AskPasswordResetForm
+    subject_template_name = 'ads/email/reset_subject.txt'
+    email_template_name = 'ads/email/reset_email_body.txt'
+    template_name = 'ads/ask_password_reset.html'
+    success_url = reverse_lazy('password_reset_email_sent')
+    extra_context = {'menu': menu}
+
+
+class AskPasswordResetDone(PasswordResetDoneView):
+    template_name = 'ads/ask_password_reset_done.html'
+    extra_context = {'menu': menu}
+
+
+class PasswordResetConfirm(PasswordResetConfirmView):
+    template_name = 'ads/password_reset.html'
+    form_class = DoPasswordResetForm
+    post_reset_login = True
+    success_url = reverse_lazy('password_reset_complete')
+    extra_context = {'menu': menu}
+
+
+class PasswordResetComplete(PasswordResetCompleteView):
+    template_name = 'ads/password_reset_complete.html'
+    extra_context = {'menu': menu}
+
+
 class ContactFormView(DataMixin, FormView):
     form_class = ContactForm
     template_name = 'ads/contact.html'
@@ -142,5 +169,4 @@ class ContactFormView(DataMixin, FormView):
         return context | c_def
 
     def form_valid(self, form):
-        print(form.cleaned_data)
         return redirect('index')

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from adpage import secret
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6c3646i0+pg+4o@zwy9q%)=uaa*voc_5ta%*5&=n(!0-+lrma_'
+SECRET_KEY = secret.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -136,3 +138,13 @@ MEDIA_URL = 'media/'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+#SMTP configuration
+
+EMAIL_HOST = secret.EMAIL_HOST
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = secret.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = secret.EMAIL_HOST_PASSWORD
+DEFAULT_FROM_EMAIL = secret.DEFAULT_FROM_EMAIL

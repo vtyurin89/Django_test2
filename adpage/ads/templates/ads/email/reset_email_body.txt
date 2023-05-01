@@ -1,0 +1,8 @@
+{% autoescape off %}
+{{ user.username }}, приветствуем!
+Вы отправили запрос на сброс пароля. Чтобы поменять пароль, перейдите по следующей ссылке:
+{{protocol}}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+С уважением,
+администрация сайта.
+{% endautoescape %}
