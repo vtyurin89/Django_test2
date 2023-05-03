@@ -7,3 +7,13 @@ __pycache__
 
 # secret keys
 /adpage/secret.py
+
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
