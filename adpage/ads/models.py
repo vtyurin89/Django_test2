@@ -1,5 +1,7 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 
 
 # Create your models here.
@@ -11,6 +13,7 @@ class Ad(models.Model):
     time_published = models.DateTimeField(auto_now_add=True, verbose_name='Время публикации')
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория')
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -40,3 +43,10 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Категории'
         verbose_name = 'Категория'
+
+
+class AdUser(AbstractUser):
+    is_active = models.BooleanField(default=True, db_index=True, verbose_name='Активация пройдена?')
+
+    class Meta(AbstractUser.Meta):
+        pass

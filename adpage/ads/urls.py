@@ -18,4 +18,7 @@ urlpatterns = [
     path('account/ask_password_reset_done/', AskPasswordResetDone.as_view(), name='password_reset_email_sent'),
     path('account/password_reset/<uidb64>/<token>/', PasswordResetConfirm.as_view(), name='password_reset_confirm'),
     path('account/password_reset/success/', PasswordResetComplete.as_view(), name='password_reset_complete'),
+    path('account/myads/', ProfileMyAds.as_view(), name='profile_myads'),
+    path('account/edit_profile/', ProfileChangeUserData.as_view(), name='profile_edit'),
+    path('account/change_password/', ProfileChangePassword.as_view(), name='profile_change_password'),
 ]

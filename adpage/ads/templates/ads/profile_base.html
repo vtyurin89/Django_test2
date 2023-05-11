@@ -93,10 +93,56 @@
         </div>
         </div>
 
+
+<!-- profile part begins -->
+
+            <!-- sidebar -->
+<div class="row mt-3" xmlns="http://www.w3.org/1999/html">
+ <nav class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+    <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <span class="fs-4">{{ user.username }}</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        {% for item in profile_sidebar %}
+        {% if item.sidebar_pos == sidebar_pos %}
+      <li class="nav-item">
+        <a href="{% url item.url_name %}" class="nav-link active" aria-current="page">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+          {{ item.title }}
+        </a>
+      </li>
+        {% else %}
+        <li>
+        <a href="{% url item.url_name %}" class="nav-link text-white">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+          {{ item.title }}
+        </a>
+      </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+  </nav>
+    <!-- end sidebar -->
+
+    <section class="col">
+
+        <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">{{ profile_title }}</span>
+        </div>
+        </nav>
+
+        {% bootstrap_messages %}
         {% block content %}
         {% endblock content %}
 
-         <!-- Pagination in here!
+    </section>
+    </div>
+
+<!-- end of profile part -->
+
+<!-- Pagination in here!
           Pagination variable in utils.py.
           -->
         {% if page_obj.has_other_pages %}

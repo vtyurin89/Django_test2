@@ -1,9 +1,23 @@
+
 body {
     min-width: 320px;
 }
 
 main {
     min-height: 100vh;
+}
+
+nav.navbar {
+    max-width: 1333px; /* applying max-width */
+    margin: 0 auto; /* center */
+    .navbar-collapse {
+        justify-content : center; /* center the elements in the block if there is flex */
+        -webkit-justify-content : center; /* make it works on some navigators */
+    }
+}
+
+.sidebar {
+    height: 85vh;
 }
 
 .center-vertical {
@@ -39,4 +53,9 @@ main {
 .card:hover {
     box-shadow: 0 14px 30px -15px rgba(0, 0, 0, 0.75);
     transition: all .3s;
+}
+
+footer {
+    max-width: 1333px; /* applying max-width */
+    margin: 0 auto; /* center */
 }

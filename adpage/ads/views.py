@@ -1,11 +1,13 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, \
-    PasswordResetCompleteView
+    PasswordResetCompleteView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, FormView
+from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView
+from django.conf import settings
 
 from .forms import *
 from .models import *
@@ -99,7 +101,7 @@ class AdCategory(DataMixin, ListView):
 
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('index')
     template_name = 'ads/register.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -170,3 +172,50 @@ class ContactFormView(DataMixin, FormView):
 
     def form_valid(self, form):
         return redirect('index')
+
+
+class ProfileMyAds(LoginRequiredMixin, DataMixin, DetailView):
+    template_name = 'ads/profile_myads.html'
+    context_object_name = 'user'
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Мои объявления', profile_title='Мои объявления', sidebar_pos=1)
+        return context | c_def
+
+
+class ProfileChangeUserData(LoginRequiredMixin, DataMixin, UpdateView, SuccessMessageMixin):
+    model = AdUser
+    template_name = 'ads/profile_change_user_data.html'
+    form_class = ChangeUserDataForm
+    success_url = reverse_lazy('profile_edit')
+    success_message = 'Данные успешно изменены!'
+
+    def setup(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().setup(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.user_id)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Редактировать профиль', profile_title='Редактировать профиль пользователя', sidebar_pos=2)
+        return context | c_def
+
+
+class ProfileChangePassword(PasswordChangeView, LoginRequiredMixin, DataMixin, SuccessMessageMixin):
+    template_name = 'ads/profile_change_password.html'
+    success_url = reverse_lazy('profile_change_password')
+    success_message = 'Пароль успешно изменён'
+    form_class = ProfileChangePassword
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Настройки безопасности', profile_title='Изменить пароль пользователя', sidebar_pos=3)
+        return context | c_def
