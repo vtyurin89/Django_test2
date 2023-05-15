@@ -25,7 +25,9 @@ class AdHomepage(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['cats'] = SuperCategory.objects.all()
         c_def = self.get_user_context(title='Главная страница', in_menu=1)
+        print(context)
         return context | c_def
 
     def get_queryset(self):
@@ -38,10 +40,19 @@ class AdNew(LoginRequiredMixin, DataMixin, CreateView):
     success_url = reverse_lazy('index')
     login_url = reverse_lazy('login')
 
+    def setup(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().setup(request, *args, **kwargs)
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Добавить объявление', in_menu=2)
         return context | c_def
+
+    def get_form_kwargs(self):
+        form_kwargs = super(AdNew, self).get_form_kwargs()
+        form_kwargs['user_id'] = self.user_id
+        return form_kwargs
 
 
 def help(request):
@@ -50,8 +61,8 @@ def help(request):
 
 
 def search(request):
-    if request.method == 'GET':
-        searched = request.GET['search-bar']
+    if request.method == 'POST':
+        searched = request.POST['search-bar']
         title = f'Результаты поиска: {str(searched)}'
         if searched:
             ads = Ad.objects.filter(title__icontains=searched)

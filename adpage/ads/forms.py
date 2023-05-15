@@ -11,17 +11,20 @@ from .models import *
 
 class AddPostForm(forms.ModelForm):
    def __init__(self, *args, **kwargs):
-       super().__init__(*args, **kwargs)
+       self.author_id = kwargs.pop('user_id', None)
+       super(AddPostForm, self).__init__(*args, **kwargs)
+
+   cat = forms.ModelChoiceField(queryset=Category.objects.filter(super_category__isnull=False), label='Категория',
+                                widget=forms.Select(attrs={'class': 'form-select'}))
    captcha = CaptchaField(label='Код с картинки')
 
    class Meta:
        model = Ad
-       fields = ['title', 'slug', 'content', 'price', 'cat']
+       fields = ['title', 'content', 'price', 'cat', 'image']
        widgets = {'title': forms.TextInput(attrs={'class': 'form-control'}),
-                  'slug': forms.TextInput(attrs={'class': 'form-control'}),
                   'content': forms.Textarea(attrs={'class': 'form-control'}),
                   'price': forms.TextInput(attrs={'class': 'form-control'}),
-                  'cat': forms.Select(attrs={'class': 'form-select'}),
+                  'image': forms.FileInput(attrs={'class': 'form-control'})
 }
 
    def clean_title(self):
@@ -29,6 +32,23 @@ class AddPostForm(forms.ModelForm):
        if len(title) > 200:
            raise ValidationError('Максимальная длина названия - 200 символов')
        return title
+
+   def save(self, commit=True, **kwargs):
+       my_form_object = super(AddPostForm, self).save(commit=False)
+       new_title = my_form_object.title.translate(
+           str.maketrans(
+               "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ",
+               "abvgdeejzijklmnoprstufhzcss_y_euaABVGDEEJZIJKLMNOPRSTUFHZCSS_Y_EUA"))
+       new_slug = slugify(new_title)
+       check_ad = Ad.objects.filter(slug=new_slug)
+       if check_ad.exists():
+           my_form_object.slug = f"{new_slug}_{check_ad.count() + 1}"
+       else:
+           my_form_object.slug = new_slug
+       my_form_object.author_id = self.author_id
+       if commit:
+           my_form_object.save()
+       return my_form_object
 
 
 class RegisterUserForm(UserCreationForm):
@@ -62,7 +82,9 @@ class AskPasswordResetForm(PasswordResetForm):
 
 
 class DoPasswordResetForm(SetPasswordForm):
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Новый пароль'}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Новый пароль'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': 'Повторите пароль'}))
 
 
 
@@ -89,3 +111,12 @@ class ProfileChangePassword(PasswordChangeForm):
     old_password = forms.CharField(label='Старый пароль', max_length=255, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     new_password1 = forms.CharField(label='Новый пароль', max_length=255, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     new_password2 = forms.CharField(label='Повторите пароль', max_length=255, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+
+class SubCategoryForm(forms.ModelForm):
+    super_category = forms.ModelChoiceField(queryset=SuperCategory.objects.all(), empty_label=None, label='Родительская категория', required=True)
+
+    class Meta:
+        model = SubCategory
+        fields = '__all__'
+

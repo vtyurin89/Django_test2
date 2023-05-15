@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'captcha',
     'ads.apps.AdsConfig',
+    'django_cleanup',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +134,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+THUMBNAIL_ALIASES = {
+   '': {
+       'default': {
+           'size': (96, 96),
+           'crop': 'scale',
+       },
+   }
+}
+
+THUMBNAIL_BASEDIR = 'thumbnails'
 
 INTERNAL_IPS = [
     "127.0.0.1",

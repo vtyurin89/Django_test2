@@ -34,5 +34,6 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include('debug_toolbar.urls')),
     ] + urlpatterns
+    #urlpatterns.append(path('static/<path:path>', never_cache(serve)))
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

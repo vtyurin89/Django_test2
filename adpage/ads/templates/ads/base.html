@@ -2,6 +2,7 @@
 {% load bootstrap5 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
+{% load thumbnail %}
 
 <!DOCTYPE html>
 <html>
@@ -74,24 +75,13 @@
             <nav>
             <div class="mainthing">
             <div class="container mt-4">
-        <form class="d-flex justify-content-center" role="search" method="get" action="{% url 'search' %}">
+        <form class="d-flex justify-content-center" role="search" method="post" action="{% url 'search' %}">
             {% csrf_token %}
         <div class="w-50"><input class="form-control me-3" type="search" placeholder="Поиск по объявлениям" aria-label="Search" name="search-bar"></div>
         <button class="btn btn-outline-primary ms-3" type="submit">Найти</button>
         </form>
         </div>
             </nav>
-
-        <!-- Categories -->
-        <div class="container mt-3">
-        <div class="d-flex flex-row justify-content-center flex-wrap">
-        {% for cat in cats %}
-        {% if cat.ad__count > 0 %}
-            <a class="m-2" href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
-        {% endif %}
-        {% endfor %}
-        </div>
-        </div>
 
         {% block content %}
         {% endblock content %}
